@@ -1,0 +1,33 @@
+
+#!/bin/bash
+echo ""
+echo "--------------------"
+echo "Upgrading the system"
+echo "--------------------"
+echo ""
+
+apt-get -y update
+apt-get -y upgrade
+apt-get -y dist-upgrade
+apt-get -y upgrade
+
+echo ""
+echo "--------------------"
+echo "Installing PPAs"
+echo "--------------------"
+echo ""
+
+add-apt-repository -y ppa:ondrej/php5
+add-apt-repository -y ppa:webupd8team/atom
+add-apt-repository -y ppa:webupd8team/themes
+add-apt-repository -y ppa:ubuntu-mozilla-daily/firefox-aurora
+
+echo ""
+echo "--------------------"
+echo "Installing Software"
+echo "--------------------"
+echo ""
+
+apt-get update
+apt-get install apache2 php5.6 mariadb nodejs npm atom vim filezilla firefox openjdk-9-jre chromium-browser virtualbox
+
