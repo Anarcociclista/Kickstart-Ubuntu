@@ -1,4 +1,6 @@
 #!/bin/bash
+home_dir="$(dirname "$0")"
+
 function title() {
   TitleBorder="*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*"
   echo ""
@@ -25,11 +27,43 @@ add-apt-repository -y ppa:webupd8team/atom
 add-apt-repository -y ppa:ubuntu-mozilla-daily/firefox-aurora
 add-apt-repository -y ppa:webupd8team/sublime-text-3
 
-title "Installing Software"
+title "Installing Software from the repositories"
 
 apt-get update
-
 ## install everything
-apt-get install -y apache2 php7.0 mariadb-server phpmyadmin mysql-workbench \
+apt-get install -y curl zsh apache2 php7.0 composer mariadb-server phpmyadmin mysql-workbench \
 nodejs npm atom vim filezilla firefox openjdk-9-jre chromium-browser virtualbox \
-sublime-text-installer i3
+sublime-text-installer i3 colortest
+
+title "Installing other tools"
+
+## update npm and install grunt, bower and yeoman
+ln -s /usr/bin/nodejs /usr/bin/node ## this is for the compatibility with a lot of nodejs packages
+
+npm install -g npm
+npm install -g grunt
+npm install -g bower
+npm install -g yo #yeoman
+
+title "Importing backuped configurations"
+## install backuped sublime text 3 packages and configurations
+echo ""
+echo "Looking for the configurations folder"
+if test -d $home_dir/configurations; then
+  echo "Found."
+  echo "Do you want to import software and environmental configuration?"
+  read -p 'Type "Y" only if you know what you'\'' doing (yN):' Input
+if [[ $Input == 'Y' || $Input == 'y' ]]; then
+  # @TODO: all
+    cp -r $home_dir/configurations/.config/sublime-text-3 ~/.config/
+  else
+    echo "Importing configurations Skipped."
+  fi
+else
+  echo "Not found."
+fi
+echo ""
+
+
+## install oh my zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
